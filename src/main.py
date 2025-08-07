@@ -61,7 +61,9 @@ def serve(path):
         else:
             return "index.html not found", 404
 
-
+import os
+import atexit
+from src.cron_jobs import start_cron_jobs, stop_cron_jobs
 if __name__ == '__main__':
     # Avvia i cron job
     start_cron_jobs()
@@ -70,5 +72,9 @@ if __name__ == '__main__':
     from src.cron_jobs import stop_cron_jobs
     atexit.register(stop_cron_jobs)
     
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    
+
+port = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=port)
+
 
